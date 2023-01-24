@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: ./web/
+      dockerfile: Dockerfile
+    container_name: web-lp
+    volumes:
+      - ./web/src:/app/src
+      - ./web/public:/app/public
+    ports:
+      - "13000:13000"
+    depends_on:
+      - dynamodb
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb-local
+    user: root
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /data -cors http://localhost:13000,http://localhost:3000,http://localhost:8001 # 永続化するデータのファイルパス
+    volumes:
+      - dynamodb-lp-data:/data
+    ports:
+      - 8000:8000
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin:latest
+    container_name: dynamodb-admin
+    environment:
+      - DYNAMO_ENDPOINT=dynamodb:8000
+    ports:
+      - 8001:8001
+    depends_on:
+      - dynamodb
+volumes:
+  dynamodb-lp-data:
