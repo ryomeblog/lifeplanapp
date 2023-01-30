@@ -25,6 +25,10 @@ const Header = (props) => {
         {
             label: "比較",
             href: "/comparison",
+        },
+        {
+            label: "投資グラフ",
+            href: "/investment",
         }
     ];
 

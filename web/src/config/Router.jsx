@@ -11,6 +11,8 @@ import Home from '../components/home/Home';
 import Detail from '../components/detail/Detail';
 import LifeList from '../components/lifeList/LifeList';
 import JsonPlan from '../components/json/JsonPlan';
+// 不要インポート
+import InvestmentGraphFlame from '../flame/web/InvestmentGraphFlame';
 
 const Router = () => {
     if (window.parent.screen.width <= 1600) {
@@ -50,6 +52,12 @@ const Router = () => {
                         <>
                             <Header />
                             <ComparisonFlame />
+                        </>
+                    } />
+                    <Route path="/investment" element={
+                        <>
+                            <Header />
+                            <InvestmentGraphFlame/>
                         </>
                     } />
                     <Route path="/life/:lifeId" element={

@@ -23,7 +23,6 @@ import AWS from '../../../config/AWS';
 const EventDetail = (props) => {
     const params = useParams();
     const documentClient = new AWS.DynamoDB.DocumentClient();
-    const [items, setItems] = useState([]);
     const [user, setUser] = useState([]);
     const [household, setHousehold] = useState([]);
     const [householdVals, setHouseholdVals] = useState({

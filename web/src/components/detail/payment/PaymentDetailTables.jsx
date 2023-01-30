@@ -48,6 +48,7 @@ const PaymentDetailTables = (props) => {
         val += totalVal(paymentArr.travel_hobbie_friend);
         val += totalVal(paymentArr.child);
         val += totalVal(paymentArr.tax);
+        val += totalVal(paymentArr.investment);
         val += totalVal(paymentArr.others);
         return val;
     }
@@ -155,6 +156,14 @@ const PaymentDetailTables = (props) => {
                         val={totalVal(props.householdVals.payment.tax)}
                         name="税金"
                         category="tax"
+                        deletePayment={props.deletePayment}
+                        createPayment={props.createPayment} />
+                    <DetailTable
+                        row={props.householdVals.payment.investment}
+                        totalVal={totalAllVal(props.householdVals.payment)}
+                        val={totalVal(props.householdVals.payment.investment)}
+                        name="投資"
+                        category="investment"
                         deletePayment={props.deletePayment}
                         createPayment={props.createPayment} />
                     <DetailTable

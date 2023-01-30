@@ -44,6 +44,7 @@ const LifeList = (props) => {
     const [lifeplanYears, setLifeplanYears] = useState([]);
     const [lifeplanYear, setLifeplanYear] = useState("");
     const [fireMoney, setFireMoney] = useState(5);
+    const [investment, setInvestment] = useState(0);
 
     // 関数
     const selectLifePlanYear = (year) => {
@@ -85,6 +86,7 @@ const LifeList = (props) => {
         val += totalVal(paymentArr.travel_hobbie_friend);
         val += totalVal(paymentArr.child);
         val += totalVal(paymentArr.tax);
+        val += totalVal(paymentArr.investment);
         val += totalVal(paymentArr.others);
         return val;
     }
@@ -104,6 +106,14 @@ const LifeList = (props) => {
         val += totalVal(incomeArr.pension);
         val += totalVal(incomeArr.grants);
         return val;
+    }
+
+    const investmentTotalVal = (paymentArr) => {
+        return totalVal(paymentArr.investment);
+    }
+
+    const taxTotalVal = (paymentArr) => {
+        return totalVal(paymentArr.tax);
     }
 
     const moneyFormat = (num) => {
@@ -129,6 +139,8 @@ const LifeList = (props) => {
                     getLifeplanYears.push({
                         income: incomeTotalVal(row.income),
                         payment: paymentTotalVal(row.payment),
+                        investment: investmentTotalVal(row.payment),
+                        tax: taxTotalVal(row.payment),
                         event: row.event,
                         year: row.year
                     });
@@ -192,8 +204,9 @@ const LifeList = (props) => {
                 "food": [],
                 "others": [],
                 "network": [],
+                "investment": [],
                 "child": []
-              },
+            },
             income: {
                 "grants": [],
                 "temporary": [],
@@ -207,7 +220,7 @@ const LifeList = (props) => {
                 "employment": [],
                 "retirement": [],
                 "real_estate": []
-              },
+            },
             year: lifeplanYear
         });
         updateLifeListDB(updateHousehold);
@@ -229,6 +242,8 @@ const LifeList = (props) => {
                     getLifeplanYears.push({
                         income: incomeTotalVal(row.income),
                         payment: paymentTotalVal(row.payment),
+                        investment: investmentTotalVal(row.payment),
+                        tax: taxTotalVal(row.payment),
                         event: row.event,
                         year: row.year
                     });
@@ -247,8 +262,8 @@ const LifeList = (props) => {
             alignItems="center"
             justifyContent="center"
             paddingTop={10}>
-            <Grid item xs={0} sm={0} md={2} lg={2}></Grid>
-            <Grid item xs={12} sm={12} md={8} lg={8}>
+            <Grid item xs={0} sm={0} md={1} lg={1}></Grid>
+            <Grid item xs={12} sm={12} md={10} lg={10}>
                 <Card>
                     <CardHeader style={{ textAlign: "center", backgroundColor: "#af52bf", color: "#FFFFFF" }} title="ライフプラン登録" />
                     <CardContent>
@@ -320,6 +335,11 @@ const LifeList = (props) => {
                                         <TableCell
                                             align='left'
                                         >
+                                            投資額
+                                        </TableCell>
+                                        <TableCell
+                                            align='left'
+                                        >
                                             <TextField
                                                 sx={{ m: 1, width: '120px' }}
                                                 type="number"
@@ -367,18 +387,23 @@ const LifeList = (props) => {
                                                         {lifeplanYear.year}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {moneyFormat(lifeplanYear.payment)}円
+                                                        {moneyFormat(lifeplanYear.payment)}円<br />
+                                                        （{moneyFormat((Number(lifeplanYear.payment) - Number(lifeplanYear.tax) - Number(lifeplanYear.investment)))}円）
                                                     </TableCell>
                                                     <TableCell>
                                                         {moneyFormat(lifeplanYear.income)}円
                                                     </TableCell>
                                                     <TableCell>
                                                         <strong style={{ color: `${Number(lifeplanYear.income) - Number(lifeplanYear.payment) > 0 ? 'blue' : 'red'}` }}>
-                                                            {moneyFormat(Number(lifeplanYear.income) - Number(lifeplanYear.payment))}円
+                                                            {moneyFormat(Number(lifeplanYear.income) - Number(lifeplanYear.payment))}円<br />
+                                                            （{moneyFormat(Number(lifeplanYear.income) - (Number(lifeplanYear.payment) - Number(lifeplanYear.tax) - Number(lifeplanYear.investment)))}円）
                                                         </strong>
                                                     </TableCell>
                                                     <TableCell>
-                                                        {moneyFormat(Math.round(Number(lifeplanYear.payment) * (100 / fireMoney)))}円
+                                                        {moneyFormat(lifeplanYear.investment)}円
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {moneyFormat(Math.round((Number(lifeplanYear.payment) - Number(lifeplanYear.tax) - Number(lifeplanYear.investment)) * (100 / fireMoney)))}円
                                                     </TableCell>
                                                     <TableCell>
                                                         {lifeplanYear.event.map((event) => {
@@ -434,7 +459,7 @@ const LifeList = (props) => {
                     </CardContent>
                 </Card>
             </Grid>
-            <Grid item xs={0} sm={0} md={2} lg={2}></Grid>
+            <Grid item xs={0} sm={0} md={1} lg={1}></Grid>
         </Grid>
     );
 };

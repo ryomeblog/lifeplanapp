@@ -37,6 +37,7 @@ const PaymentDetail = (props) => {
             travel_hobbie_friend: [],
             child: [],
             tax: [],
+            investment: [],
             others: []
         },
         event: [],
@@ -55,7 +56,8 @@ const PaymentDetail = (props) => {
         '#e6be3b',
         '#28e1ad',
         '#ADFF2F',
-        '#f8307e'
+        '#f8307e',
+        '#1fa9d4'
     ];
 
     const createGraphData = (payment) => {
@@ -71,6 +73,7 @@ const PaymentDetail = (props) => {
             { name: '交際費・旅行・趣味', value: totalVal(payment.travel_hobbie_friend) },
             { name: '子育て', value: totalVal(payment.child) },
             { name: '税金', value: totalVal(payment.tax) },
+            { name: '投資', value: totalVal(payment.investment) },
             { name: 'その他', value: totalVal(payment.others) }
         ];
     }
@@ -159,6 +162,10 @@ const PaymentDetail = (props) => {
                 // 税金
                 delete deletePaymentVals.tax[deleteByPaymentName(deletePaymentVals.tax, paymentName)];
                 break;
+            case 'investment':
+                // 投資
+                delete deletePaymentVals.investment[deleteByPaymentName(deletePaymentVals.investment, paymentName)];
+                break;
             case 'others':
                 // その他
                 delete deletePaymentVals.others[deleteByPaymentName(deletePaymentVals.others, paymentName)];
@@ -207,6 +214,9 @@ const PaymentDetail = (props) => {
                 break;
             case 'tax':
                 createPaymentVals.tax.push(addvals);
+                break;
+            case 'investment':
+                createPaymentVals.investment.push(addvals);
                 break;
             case 'others':
                 createPaymentVals.others.push(addvals);

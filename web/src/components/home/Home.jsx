@@ -88,7 +88,7 @@ const Home = (props) => {
                     household: row.household,
                     life_name: putLifePlanName,
                     life_id: createLifePlanId(),
-                    users: row.user
+                    users: row.users
                 };
                 break;
             }
