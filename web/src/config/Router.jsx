@@ -15,7 +15,7 @@ import JsonPlan from '../components/json/JsonPlan';
 import InvestmentGraphFlame from '../flame/web/InvestmentGraphFlame';
 
 const Router = () => {
-    if (window.parent.screen.width <= 1600) {
+    if (window.parent.screen.width <= 100) {
         // スマホorタブレット
         return (
             <BrowserRouter>
